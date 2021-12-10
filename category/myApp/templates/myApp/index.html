@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+{#<link rel="short icon" href="#">#}
+<head>
+    <meta charset="UTF-8">
+    <title>Categories Database:</title>
+</head>
+<body>
+<h2>Categories table</h2>
+<table>
+    <thead>
+        <tr>
+        <th>category id</th>
+        <th>category name</th>
+        <th>category description</th>
+    </tr>
+    </thead>
+{% for category in categories %}
+    <tr>
+        <td>{{ category.categoryid }}</td>
+        <td>{{ category.categoryname }}</td>
+        <td>{{ category.categorydescription }}</td>
+    </tr>
+{% endfor %}
+</table>
+<br>
+<br>
+<h2>Example query result:</h2>
+<table>
+    <thead>
+        <tr>
+            <th>category name</th>
+            <th>category description</th>
+    </tr>
+    </thead>
+{% for i in output1 %}
+    <tr>
+        <td>{{ i.categoryname }}</td>
+        <td>{{ i.categorydescription }}</td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>
