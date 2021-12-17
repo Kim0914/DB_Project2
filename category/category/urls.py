@@ -18,6 +18,7 @@ from myApp import views
 
 urlpatterns = [
     path('', views.display, name='index'),
+    path('show/', views.show_Data, name='show'),
     path('init_StudDB/', views.init_StudDB, name='init_StudDB'),
     path('init_ProfDB/', views.init_ProfDB, name='init_ProfDB'),
     path('init_CountyDB/', views.init_CountyDB, name='init_CountyDB'),

@@ -6,8 +6,30 @@
     <title>DATABASE ASSIGNMENT 2</title>
 </head>
 <body>
-<h2>Students table</h2>
+<h2> Students table </h2>
 <table>
+    <style>
+            table, td, th{
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin: auto;
+                padding: 8px;
+            }
+            table{
+                width: 60%;
+            }
+
+            td{
+                text-align: center;
+            }
+            h2{
+                font-size: 23px; font-weight: bold; color: MediumSlateBlue; text-shadow: 1px 1px 1.2px midnightblue; text-align: center
+            }
+            input{
+
+            }
+
+    </style>
     <form action="{% url 'init_StudDB'%}">
         <input class="button" type="submit" value="+ Add records from csv">
         <style>
@@ -19,6 +41,8 @@
                 border-radius: 3px;
                 font-size: 15px;
                 width:180px;
+                display: block;
+                margin: auto auto 15px;
             }
             input.button:hover{
                 border: 1px solid greenyellow;
@@ -59,6 +83,8 @@
                 border-radius: 3px;
                 font-size: 15px;
                 width:180px;
+                display: block;
+                margin: auto auto 15px;
             }
             input.button:hover{
                 border: 1px solid greenyellow;
@@ -99,6 +125,8 @@
                 border-radius: 3px;
                 font-size: 15px;
                 width:180px;
+                display: block;
+                margin: auto auto 15px;
             }
             input.button:hover{
                 border: 1px solid greenyellow;
@@ -137,6 +165,8 @@
                 border-radius: 3px;
                 font-size: 15px;
                 width:180px;
+                display: block;
+                margin: auto auto 15px;
             }
             input.button:hover{
                 border: 1px solid greenyellow;
@@ -160,5 +190,54 @@
 </table>
 <br>
 <br>
+<h2>Query #1: </h2>
+<table>
+    <thead>
+        <tr>
+            <th>countyName</th>
+            <th>averageScore</th>
+        </tr>
+    </thead>
+{% for query1 in query1s %}
+    <tr>
+        <td>{{query1.countyName}}</td>
+        <td>{{query1.averageScore}}</td>
+    </tr>
+{% endfor %}
+</table>
+<br>
+<br>
+<h2>Query #2: </h2>
+<table>
+    <thead>
+        <tr>
+            <th>cityName</th>
+            <th>averageScore</th>
+        </tr>
+    </thead>
+{% for query2 in query2s %}
+    <tr>
+        <td>{{query2.cityName}}</td>
+        <td>{{query2.averageScore}}</td>
+    </tr>
+{% endfor %}
+</table>
+<br>
+<br>
+<h2>Query #3: </h2>
+<table>
+    <thead>
+        <tr>
+            <th>professorName</th>
+            <th>studentName</th>
+        </tr>
+    </thead>
+{% for query3 in query3s %}
+    <tr>
+        <td>{{query3.professorName}}</td>
+        <td>{{query3.studentName}}</td>
+    </tr>
+{% endfor %}
+</table>
 </body>
 </html>
