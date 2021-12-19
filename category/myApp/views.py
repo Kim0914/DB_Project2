@@ -206,11 +206,65 @@ def query_two():
 def query_three():
     outputQuery3 = []
 
+    with connection.cursor() as cursor:
+        sqlQuery3 = '''
+                SELECT prof.name as professorName, stud.name as studentName
+                FROM (SELECT p1.name, p1.age, p1.county
+	                    FROM professors p1
+	                    WHERE p1.age >= ALL(SELECT p2.age FROM professors p2 WHERE p1.county = p2.county)) prof,
+                    (SELECT s1.name, s1.score, s1.county
+	                    FROM students s1
+	                    WHERE s1.score >= ALL(SELECT s2.score FROM students s2 where s1.county = s2.county)) stud
+                WHERE prof.county = stud.county;
+            '''
+        cursor.execute(sqlQuery3)
+        fetchResult3 = cursor.fetchall()
+
+    connection.commit()
+    connection.close()
+
+    for temp in fetchResult3:
+        eachRow = {'professorName': temp[0], 'studentName': temp[1]}
+        outputQuery3.append(eachRow)
+
     return outputQuery3
 
 
 def query_four():
     outputQuery4 = []
+
+    with connection.cursor() as cursor:
+        sqlQuery4 = '''
+                    SELECT prof.name as professorName, stud.name as studentName
+                    FROM (SELECT cProf1.name, cProf1.city
+                            FROM (SELECT p1.name, p1.age, c1.city
+                                    FROM professors p1, counties c1
+                                    WHERE p1.county = c1.countyName) cProf1
+                            WHERE cProf1.age >= ALL(SELECT cProf2.age
+                                                    FROM(SELECT p1.name, p1.age, c1.city
+                                                            FROM professors p1, counties c1
+                                                            WHERE p1.county = c1.countyName) cProf2
+                                                    WHERE cProf1.city = cProf2.city)) prof,
+                        (SELECT cStud1.name, cStud1.city
+                            FROM(SELECT s1.name, s1.score, c1.city
+                                FROM students s1, counties c1
+                                WHERE s1.county = c1.countyName) cStud1
+                            WHERE cStud1.score >= ALL(SELECT cStud2.score
+                                                        FROM (SELECT s1.name, s1.score, c1.city
+                                                                FROM students s1, counties c1
+                                                                WHERE s1.county = c1.countyName) cStud2
+                                                        WHERE cStud1.city = cStud2.city)) stud
+                    WHERE prof.city = stud.city;
+                '''
+        cursor.execute(sqlQuery4)
+        fetchResult4 = cursor.fetchall()
+
+    connection.commit()
+    connection.close()
+
+    for temp in fetchResult4:
+        eachRow = {'professorName': temp[0], 'studentName': temp[1]}
+        outputQuery4.append(eachRow)
 
     return outputQuery4
 
@@ -218,14 +272,46 @@ def query_four():
 def query_five():
     outputQuery5 = []
 
+    outputQuery3 = []
+
+    with connection.cursor() as cursor:
+        sqlQuery5 = '''
+                    SELECT stud.name as studentName, covid_rank.city as cityName
+                    FROM (SELECT s1.studentID, s1.name, c1.city
+                            FROM students s1, counties c1
+                            WHERE s1.county = c1.countyName) stud,
+                            (SELECT covid1.city, count(covid1.city)/city1.population as patient_ratio
+                                FROM covid covid1, (SELECT city, sum(population) as population
+                                                    FROM counties
+                                                    GROUP BY city) city1
+                                WHERE covid1.city = city1.city
+                                GROUP BY covid1.city
+                                ORDER BY patient_ratio DESC LIMIT 3) covid_rank
+                    WHERE stud.city = covid_rank.city
+                    ORDER BY covid_rank.patient_ratio DESC
+
+
+                '''
+        cursor.execute(sqlQuery5)
+        fetchResult5 = cursor.fetchall()
+
+    connection.commit()
+    connection.close()
+
+    for temp in fetchResult5:
+        eachRow = {'studentName': temp[0], 'cityName': temp[1]}
+        outputQuery5.append(eachRow)
+
     return outputQuery5
 
 
 def show_Data(request):
+    # ---------------- START get data from DATABASE ---------------- #
     outputStudents = get_studData()
     outputProfessors = get_profData()
     outputCounties = get_countyData()
     outputCovids = get_covidData()
+    # ---------------- FINISH get data from DATABASE ---------------- #
 
     # ---------------- Query statement START ---------------- #
     outputQuery1 = query_one()

@@ -239,5 +239,39 @@
     </tr>
 {% endfor %}
 </table>
+<br>
+<br>
+<h2>Query #4: </h2>
+<table>
+    <thead>
+        <tr>
+            <th>professorName</th>
+            <th>studentName</th>
+        </tr>
+    </thead>
+{% for query4 in query4s %}
+    <tr>
+        <td>{{query4.professorName}}</td>
+        <td>{{query4.studentName}}</td>
+    </tr>
+{% endfor %}
+</table>
+<br>
+<br>
+<h2>Query #5: </h2>
+<table>
+    <thead>
+        <tr>
+            <th>studentName</th>
+            <th>cityName</th>
+        </tr>
+    </thead>
+{% for query5 in query5s %}
+    <tr>
+        <td>{{query5.studentName}}</td>
+        <td>{{query5.cityName}}</td>
+    </tr>
+{% endfor %}
+</table>
 </body>
 </html>
